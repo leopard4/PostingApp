@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 액세스 토큰이 있는지 확인
         SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, MODE_PRIVATE);
-        String accessToken = sp.getString(Config.ACCESS_TOKEN, ""); // 액세스 토큰이 없으면 "" 리턴
+        accessToken = sp.getString(Config.ACCESS_TOKEN, ""); // 액세스 토큰이 없으면 "" 리턴
         if(accessToken.isEmpty()){
             // 액세스 토큰이 없으면 로그인 화면으로 이동
             Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         PostingApi api = retrofit.create(PostingApi.class);
 
         SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, MODE_PRIVATE);
-        String accessToken = "Bearer " + sp.getString(Config.ACCESS_TOKEN, ""); // 액세스 토큰이 없으면 "" 리턴
+        accessToken = "Bearer " + sp.getString(Config.ACCESS_TOKEN, ""); // 액세스 토큰이 없으면 "" 리턴
 
         offset = 0;
         Log.i("POSTING_LIST1",postingList+"");
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             Retrofit retrofit = NetworkClient.getRetrofitClient(MainActivity.this);
             PostingApi api = retrofit.create(PostingApi.class);
             SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, Context.MODE_PRIVATE);
-            String accessToken ="Bearer " +  sp.getString(Config.ACCESS_TOKEN, "");
+            accessToken ="Bearer " +  sp.getString(Config.ACCESS_TOKEN, "");
             Call<Res> call = api.setLike(accessToken, selectedPosting.getPostingId());
 
             call.enqueue(new Callback<Res>() {
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             Retrofit retrofit = NetworkClient.getRetrofitClient(MainActivity.this);
             PostingApi api = retrofit.create(PostingApi.class);
             SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, Context.MODE_PRIVATE);
-            String accessToken = "Bearer " + sp.getString(Config.ACCESS_TOKEN, "");
+            accessToken = "Bearer " + sp.getString(Config.ACCESS_TOKEN, "");
             Call<Res> call = api.deleteLike(accessToken, selectedPosting.getPostingId());
 
             call.enqueue(new Callback<Res>() {
