@@ -2,6 +2,7 @@ package com.leopard4.postingapp.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,20 +39,23 @@ import retrofit2.Retrofit;
 public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHolder>{
     Context context;
     ArrayList<Posting> postingList;
-    SimpleDateFormat sdf;
-    SimpleDateFormat df;
-    Posting selectedPosting;
+
+
+//    SimpleDateFormat sdf;
+//    SimpleDateFormat df;
+
 
     public PostingAdapter(Context context, ArrayList<Posting> postingList) {
         this.context = context;
         this.postingList = postingList;
 
+        // 날짜의 형식을 변환하는 코드이지만 나는 서버단에서 처리했기 때문에 필요가 없다.
         // 2023-01-17T00:38:36 => 2023-01-17 00:38:36
         // UTC => 로컬타임으로 변경
-        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        df.setTimeZone(TimeZone.getDefault()); // 내 핸드폰에 셋팅된 타임으로 변경하라는 뜻
+//        sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+//        df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+//        df.setTimeZone(TimeZone.getDefault()); // 내 핸드폰에 셋팅된 타임으로 변경하라는 뜻
 
     }
 
@@ -69,13 +73,14 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
 
         holder.txtContent.setText(posting.getContent());
         holder.txtEmail.setText(posting.getEmail());
+        holder.txtCreatedAt.setText(posting.getCreatedAt());
 
-        try {
-            Date date = sdf.parse(posting.getCreatedAt());
-            holder.txtCreatedAt.setText(df.format(date));
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            Date date = sdf.parse(posting.getCreatedAt());
+//            holder.txtCreatedAt.setText(df.format(date));
+//        } catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
 
 
 
@@ -86,10 +91,12 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
             holder.imgLike.setImageResource(R.drawable.ic_thumb_up_1);
         }
 
+        Log.i("IMAGE1", posting.getImageUrl() + "");
         Glide.with(context)
                 .load(posting.getImageUrl())
                 .placeholder(R.drawable.ic_outline_add_photo_alternate_24)
                 .into(holder.imgPhoto);
+
 
     }
 

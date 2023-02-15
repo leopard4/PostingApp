@@ -20,8 +20,7 @@ import com.leopard4.postingapp.api.PostingApi;
 import com.leopard4.postingapp.config.Config;
 import com.leopard4.postingapp.model.Posting;
 import com.leopard4.postingapp.model.PostingList;
-import com.leopard4.postingapp.model.Res;
-
+import com.leopard4.postingapp.model.ResMessage;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -120,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     offset = offset + count;
+                    // todo 어뎁터화면에 안뜨고 꺼짐
 
                     adapter = new PostingAdapter(MainActivity.this, postingList);
                     recyclerView.setAdapter(adapter);
@@ -147,11 +147,11 @@ public class MainActivity extends AppCompatActivity {
             PostingApi api = retrofit.create(PostingApi.class);
             SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, Context.MODE_PRIVATE);
             accessToken ="Bearer " +  sp.getString(Config.ACCESS_TOKEN, "");
-            Call<Res> call = api.setLike(accessToken, selectedPosting.getPostingId());
+            Call<ResMessage> call = api.setLike(accessToken, selectedPosting.getPostingId());
 
-            call.enqueue(new Callback<Res>() {
+            call.enqueue(new Callback<ResMessage>() {
                 @Override
-                public void onResponse(Call<Res> call, Response<Res> response) {
+                public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
                     if (response.isSuccessful()){
                         // 4. 화면에 결과를 표시
                         selectedPosting.setIsLike(1);
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Res> call, Throwable t) {
+                public void onFailure(Call<ResMessage> call, Throwable t) {
                     Toast.makeText(MainActivity.this, "서버와 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -175,11 +175,11 @@ public class MainActivity extends AppCompatActivity {
             PostingApi api = retrofit.create(PostingApi.class);
             SharedPreferences sp = getSharedPreferences(Config.PREFERENCE_NAME, Context.MODE_PRIVATE);
             accessToken = "Bearer " + sp.getString(Config.ACCESS_TOKEN, "");
-            Call<Res> call = api.deleteLike(accessToken, selectedPosting.getPostingId());
+            Call<ResMessage> call = api.deleteLike(accessToken, selectedPosting.getPostingId());
 
-            call.enqueue(new Callback<Res>() {
+            call.enqueue(new Callback<ResMessage>() {
                 @Override
-                public void onResponse(Call<Res> call, Response<Res> response) {
+                public void onResponse(Call<ResMessage> call, Response<ResMessage> response) {
                     if (response.isSuccessful()) {
                         // 4. 화면에 결과를 표시
                         selectedPosting.setIsLike(0);
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Res> call, Throwable t) {
+                public void onFailure(Call<ResMessage> call, Throwable t) {
                     Toast.makeText(MainActivity.this, "서버와 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                 }
             });

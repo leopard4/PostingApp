@@ -3,6 +3,7 @@ package com.leopard4.postingapp.api;
 import com.leopard4.postingapp.config.Config;
 import com.leopard4.postingapp.model.PostingList;
 import com.leopard4.postingapp.model.Res;
+import com.leopard4.postingapp.model.ResMessage;
 
 import java.io.Serializable;
 
@@ -34,11 +35,11 @@ public interface PostingApi extends Serializable {
                                  @Query ("limit") int limit);
     // 좋아요 하는 api
     @POST("/posting/{postingId}/like")
-    Call<Res> setLike(@Header ("Authorization") String token,
-                          @Path("postingId") int postingId);
+    Call<ResMessage> setLike(@Header ("Authorization") String token,
+                             @Path("postingId") int postingId);
     // 좋아요 취소하는 api
     @DELETE("/posting/{postingId}/like")
-    Call<Res> deleteLike(@Header ("Authorization") String token,
+    Call<ResMessage> deleteLike(@Header ("Authorization") String token,
                          @Path("postingId") int postingId);
 
 }
