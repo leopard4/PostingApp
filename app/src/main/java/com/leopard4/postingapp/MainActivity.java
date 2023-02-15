@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         accessToken = "Bearer " + sp.getString(Config.ACCESS_TOKEN, ""); // 액세스 토큰이 없으면 "" 리턴
 
         offset = 0;
-        Log.i("POSTING_LIST1",postingList+"");
+
         Call<PostingList> call = api.getPosting(accessToken,offset,limit);
 
 
@@ -100,36 +100,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PostingList> call, Response<PostingList> response) {
                 progressBar.setVisibility(View.GONE);
-                Log.i("POSTING_LIST2",postingList+"");
 
-                // todo : 친구가 없으면 빈리스트가 오므로 서버에러가뜸 [미처리되었음]
                 if (response.isSuccessful()) {
-                    Log.i("POSTING_LIST3",postingList+"");
+
                     postingList.clear();
 
                     count = response.body().getCount();
                     postingList.addAll(response.body().getItems());
-                    Log.i("POSTING_LIST4",postingList+"");
-                    Log.i("POSTING_LIST4",postingList.get(0).toString());
-                    Log.i("POSTING_LIST4",postingList.get(1).toString());
-                    Log.i("POSTING_LIST4",postingList.get(2).toString());
-                    // postingList 안에 poting 객체가 들어있는지 로그로 확인
-                    for (Posting posting : postingList) {
-                        Log.i("POSTING_LIST", posting.getImageUrl().toString());
-                    }
 
                     offset = offset + count;
-                    // todo 어뎁터화면에 안뜨고 꺼짐
 
                     adapter = new PostingAdapter(MainActivity.this, postingList);
                     recyclerView.setAdapter(adapter);
-                    Log.i("POSTING_LIST5",postingList+"");
                 }
             }
 
             @Override
             public void onFailure(Call<PostingList> call, Throwable t) {
-                Log.i("POSTING_LIST4",postingList+"");
                 progressBar.setVisibility(View.GONE);
 
             }

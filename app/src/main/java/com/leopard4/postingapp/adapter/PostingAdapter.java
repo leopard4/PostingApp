@@ -41,6 +41,7 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
     ArrayList<Posting> postingList;
 
 
+
 //    SimpleDateFormat sdf;
 //    SimpleDateFormat df;
 
@@ -92,6 +93,13 @@ public class PostingAdapter extends RecyclerView.Adapter<PostingAdapter.ViewHold
         }
 
         Log.i("IMAGE1", posting.getImageUrl() + "");
+
+        // http 프로토콜이 안드로이드 9.0 이상에서는 보안상의 이유로 허용되지 않는다.
+        // 때문에 manifest 에서 android:usesCleartextTraffic="true" 를 추가해야 한다.
+        // 하지만 이미 되어있음에도 불구하고 안되는 경우가 있다.
+        // 그래서 임시조치로 posting.getImageUrl() 를 https 프로토콜로 변경해야 한다.
+        posting.setImageUrl(posting.getImageUrl().replace("http://", "https://"));
+
         Glide.with(context)
                 .load(posting.getImageUrl())
                 .placeholder(R.drawable.ic_outline_add_photo_alternate_24)

@@ -100,9 +100,9 @@ public class AddActivity extends AppCompatActivity {
                 }
 
                 showProgress("업로드 중입니다.");
-
+                // retrofit을 이용해서 사진과 내용을 서버에 전송
                 Retrofit retrofit = NetworkClient.getRetrofitClient(AddActivity.this);
-                // todo : retrofit을 이용해서 사진과 내용을 서버에 전송
+
                 PostingApi api = retrofit.create(PostingApi.class);
 
                 // 멀티파트로 파일을 보내는 경우, 파일 파라미터를 만든다.
@@ -225,22 +225,23 @@ public class AddActivity extends AppCompatActivity {
         }
     }
 
+    // 안드로이드 13부터는 WRITE_EXTERNAL_STORAGE 권한을 READ_MEDIA_IMAGES 바꿔야 한다. [이코드에서는 4군대 있음]
     private void requestPermission() {
         if(ActivityCompat.shouldShowRequestPermissionRationale(AddActivity.this,
-                Manifest.permission.READ_MEDIA_IMAGES)){
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             Log.i("DEBUGGING5", "true");
             Toast.makeText(AddActivity.this, "권한 수락이 필요합니다.",
                     Toast.LENGTH_SHORT).show();
         }else{
             Log.i("DEBUGGING6", "false");
             ActivityCompat.requestPermissions(AddActivity.this,
-                    new String[]{Manifest.permission.READ_MEDIA_IMAGES}, 500);
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 500);
         }
     }
 
     private boolean checkPermission(){
         int result = ContextCompat.checkSelfPermission(AddActivity.this,
-                Manifest.permission.READ_MEDIA_IMAGES);
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if(result == PackageManager.PERMISSION_DENIED){
             return false;
         }else{
